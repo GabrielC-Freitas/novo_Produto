@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta name="title" content="SCOD — Envio de Boletos por E-mail | IPTU em PDF com rastreio e LGPD">
+    <meta name="description" content="Envie boletos de IPTU por e-mail em PDF direto da plataforma SCOD. Rápido, seguro, com registro de envio e conformidade LGPD.">
+    <meta name="keywords" content="IPTU, boleto, envio por e-mail, PDF, LGPD">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="URL_DA_SUA_PAGINA">
+    <meta property="og:title" content="SCOD — Envio de Boletos por E-mail | IPTU em PDF com rastreio e LGPD">
+    <meta property="og:description" content="Envie boletos de IPTU por e-mail em PDF direto da plataforma SCOD. Rápido, seguro, com registro de envio e conformidade LGPD.">
+    <meta property="og:image" content="URL_DA_IMAGEM_OPENGRAPH">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="URL_DA_SUA_PAGINA">
+    <meta property="twitter:title" content="SCOD — Envio de Boletos por E-mail | IPTU em PDF com rastreio e LGPD">
+    <meta property="twitter:description" content="Envie boletos de IPTU por e-mail em PDF direto da plataforma SCOD. Rápido, seguro, com registro de envio e conformidade LGPD.">
+    <meta property="twitter:image" content="URL_DA_IMAGEM_TWITTER">
+
+    <title>SCOD — Envio de Boletos por E-mail | IPTU em PDF com rastreio e LGPD</title>
+
+    <style>
+        :root {
+            --scod-rosa: #FF4081; /* Exemplo de rosa SCOD, pode ser ajustado */
+            --scod-preto: #1A1A1A;
+            --scod-grafite: #2C2C2C;
+            --scod-branco: #FFFFFF;
+            --scod-cinza-claro: #E0E0E0;
+            --max-width: 1120px;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Reset e Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--scod-preto);
+            color: var(--scod-branco);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); }
+        h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+
+        p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+        }
+
+        a {
+            color: var(--scod-rosa);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+        
+        /* Botões */
+        .cta-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .cta-btn-primary {
+            background-color: var(--scod-rosa);
+            color: var(--scod-preto);
+            border-color: var(--scod-rosa);
+        }
+
+        .cta-btn-primary:hover, .cta-btn-primary:focus {
+            background-color: transparent;
+            color: var(--scod-rosa);
+        }
+        
+        .cta-btn-secondary {
+            background-color: transparent;
+            color: var(--scod-rosa);
+            border-color: var(--scod-rosa);
+        }
+
+        .cta-btn-secondary:hover, .cta-btn-secondary:focus {
+            background-color: var(--scod-rosa);
+            color: var(--scod-preto);
+        }
+
+        /* Layout */
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .grid-3-col {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        /* HERO */
+        #hero {
+            background-color: var(--scod-grafite);
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+            text-align: center;
+        }
+
+        #hero .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #hero .h1 {
+            color: var(--scod-branco);
+            margin-bottom: 1rem;
+        }
+
+        #hero .sub {
+            color: var(--scod-cinza-claro);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+        
+        /* Layout aprimorado para os botões e o selo */
+        #hero .hero-actions {
+            display: flex;
+            flex-direction: column; /* Empilha no mobile */
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        #hero .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        #hero .new-badge {
+            background-color: var(--scod-rosa);
+            color: var(--scod-preto);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        #hero .hero-visual {
+            margin-top: 3rem;
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background-image: url('https://placehold.co/1200x600/2C2C2C/E0E0E0.webp?text=Imagem+de+escritório');
+            background-size: cover;
+            background-position: center;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #hero .hero-visual::before {
+            content: ' ';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(44, 44, 44, 0.7), rgba(44, 44, 44, 0.7));
+            z-index: 1;
+        }
+
+        /* Estilo para o logo */
+        #hero .hero-visual .scod-logo {
+            position: relative; /* Para ficar acima do pseudo-elemento */
+            z-index: 2;
+            width: clamp(150px, 40vw, 300px);
+            height: auto;
+            filter: grayscale(100%) brightness(200%) drop-shadow(0 0 5px var(--scod-rosa));
+        }
+
+        /* Sobre SCOD (nova seção) */
+        #about-scod {
+            background-color: var(--scod-grafite);
+            text-align: center;
+        }
+        
+        #about-scod h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        #about-scod p {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* PROVA RÁPIDA */
+        #quick-proof {
+            text-align: center;
+            background-color: var(--scod-grafite);
+        }
+
+        #quick-proof h2 {
+            margin-bottom: 3rem;
+        }
+
+        #quick-proof .proof-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .proof-item::before {
+            content: "✓";
+            color: var(--scod-rosa);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* COMO FUNCIONA */
+        #how-it-works .container {
+            text-align: center;
+        }
+        
+        #how-it-works h2 {
+            margin-bottom: 3rem;
+        }
+
+        #how-it-works .step {
+            padding: 2rem;
+            border-radius: 12px;
+            background-color: var(--scod-grafite);
+            text-align: left;
+            position: relative;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--scod-rosa);
+            color: var(--scod-preto);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* BENEFÍCIOS */
+        #benefits .container {
+            text-align: center;
+        }
+
+        #benefits h2 {
+            margin-bottom: 3rem;
+        }
+
+        #benefits .card {
+            background-color: var(--scod-grafite);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            color: var(--scod-rosa);
+        }
+        
+        /* PLANOS */
+        #pricing {
+            text-align: center;
+            background-color: var(--scod-grafite);
+        }
+
+        #pricing h2 {
+            margin-bottom: 1rem;
+        }
+
+        #pricing .pricing-description {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: var(--scod-cinza-claro);
+        }
+
+        #pricing .pricing-card {
+            background-color: var(--scod-preto);
+            padding: 2rem;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+        }
+
+        .pricing-card .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--scod-rosa);
+            margin: 1rem 0;
+        }
+
+        .excedente {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--scod-cinza-claro);
+        }
+
+        .legal-note {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--scod-cinza-claro);
+        }
+
+        /* FAQ */
+        #faq .container {
+            text-align: center;
+        }
+
+        #faq h2 {
+            margin-bottom: 3rem;
+        }
+
+        .faq-item {
+            background-color: var(--scod-grafite);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        
+        .faq-item h3 {
+            font-size: 1.25rem;
+            color: var(--scod-rosa);
+        }
+
+        /* CAPTURA DE LEAD */
+        #lead-capture {
+            background-color: var(--scod-grafite);
+            text-align: center;
+        }
+
+        #lead-capture h2 {
+            margin-bottom: 2rem;
+        }
+
+        #lead-capture form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--scod-cinza-claro);
+            background-color: var(--scod-preto);
+            color: var(--scod-branco);
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: 2px solid var(--scod-rosa);
+            border-color: transparent;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input {
+            width: auto;
+        }
+
+        /* RODAPÉ */
+        #footer {
+            background-color: var(--scod-preto);
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid var(--scod-grafite);
+        }
+
+        #footer .footer-links {
+            margin-bottom: 1rem;
+        }
+        
+        #footer .footer-links a {
+            margin: 0 1rem;
+        }
+
+        #footer p {
+            font-size: 0.9rem;
+            color: var(--scod-cinza-claro);
+        }
+
+        /* Media Queries para responsividade */
+        @media (min-width: 768px) {
+            #hero .container {
+                flex-direction: row;
+                text-align: left;
+                gap: 2rem;
+            }
+            
+            #hero .text-content {
+                flex: 1;
+            }
+
+            #hero .hero-actions {
+                flex-direction: row; /* Alinha horizontalmente no desktop */
+                justify-content: flex-start;
+                align-items: center;
+                gap: 2rem;
+            }
+
+            #hero .hero-buttons {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+            }
+
+            #hero .hero-visual {
+                flex: 1;
+                height: auto;
+            }
+
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .grid-3-col {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .cta-btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            #hero .hero-buttons {
+                flex-direction: column;
+            }
+
+            #hero .sub {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <section id="hero">
+        <div class="container">
+            <div class="text-content">
+                <h1 class="h1">Envio de Boletos por E-mail</h1>
+                <p class="sub">IPTU em PDF, enviado direto da plataforma. Simples, seguro e com registro.</p>
+                <!-- Novo contêiner para os botões e o selo -->
+                <div class="hero-actions">
+                    <div class="hero-buttons">
+                        <a href="#lead-capture" class="cta-btn cta-btn-primary" data-event-category="CTA" data-event-action="Click" data-event-label="Ativar agora - Hero">Ativar agora</a>
+                        <a href="#how-it-works" class="cta-btn cta-btn-secondary" data-event-category="CTA" data-event-action="Click" data-event-label="Ver como funciona - Hero">Ver como funciona</a>
+                    </div>
+                    <div class="new-badge">Novo da SCOD</div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="https://placehold.co/1200x600/2C2C2C/E0E0E0.webp?text=Imagem+de+escritório" alt="Pessoas em um escritório trabalhando">
+                <!-- Logo da SCOD sobre a imagem -->
+                <img src="https://googleusercontent.com/file_content/6" alt="Logo SCOD" class="scod-logo">
+            </div>
+        </div>
+    </section>
+
+    <!-- SOBRE A SCOD (NOVA SEÇÃO) -->
+    <section id="about-scod">
+        <div class="container">
+            <h2>Envie boletos por e-mail direto da SCOD!</h2>
+            <p>
+                A SCOD surgiu com uma simples missão: Facilitar as rotinas de trabalho dos nossos clientes!
+                Além de eliminar as buscas manuais dos boletos em sites de prefeituras e concessionárias,
+                também é possível enviar os boletos a vencer direto da plataforma. Ao utilizar este
+                recurso sem sair do sistema você ganha mais <strong>praticidade</strong>, mais <strong>agilidade</strong> e
+                <strong>zero risco</strong> de esquecer uma cobrança importante.
+            </p>
+        </div>
+    </section>
+
+    <!-- PROVA RÁPIDA -->
+    <section id="quick-proof">
+        <div class="container grid grid-3-col">
+            <div class="proof-item">Envio em poucos cliques — sem integração e sem equipe de TI</div>
+            <div class="proof-item">PDF leve para chegar rápido</div>
+            <div class="proof-item">Registro de envio e conformidade LGPD</div>
+        </div>
+    </section>
+
+    <!-- COMO FUNCIONA -->
+    <section id="how-it-works">
+        <div class="container">
+            <h2>Como funciona</h2>
+            <div class="grid grid-3-col">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <p>Abra o boleto capturado na SCOD.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <p>Informe o e-mail do destinatário e mensagem opcional.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <p>Envie e acompanhe o status do envio no painel.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- BENEFÍCIOS -->
+    <section id="benefits">
+        <div class="container">
+            <h2>Por que usar o SCOD para seus boletos de IPTU?</h2>
+            <div class="grid grid-3-col">
+                <div class="card">
+                    <h3>Agilidade</h3>
+                    <p>Pare de baixar e anexar boletos manualmente. Faça tudo no mesmo lugar, em poucos cliques.</p>
+                </div>
+                <div class="card">
+                    <h3>Menos erro</h3>
+                    <p>Garanta que o boleto certo chegue no e-mail certo, com registro de quem enviou e quando.</p>
+                </div>
+                <div class="card">
+                    <h3>Segurança</h3>
+                    <p>Seus dados são tratados conforme a LGPD e as boas práticas internas da SCOD.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLANOS -->
+    <section id="pricing">
+        <div class="container">
+            <h2>Planos e Valores</h2>
+            <p class="pricing-description">
+                Este é um módulo adicional que pode ser contratado por clientes que já assinaram a Captura de IPTU, Contas de Consumo e Taxas. A contratação é por faixa de envios, acompanhando sua assinatura.
+            </p>
+            <div class="grid grid-3-col">
+                <div class="pricing-card">
+                    <h3>Até 300 boletos</h3>
+                    <p class="price">R$ 120,00</p>
+                    <a href="#lead-capture" class="cta-btn cta-btn-primary" data-event-category="CTA" data-event-action="Click" data-event-label="Começar nesta faixa - 300">Começar nesta faixa de envios</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Até 500 boletos</h3>
+                    <p class="price">R$ 165,00</p>
+                    <a href="#lead-capture" class="cta-btn cta-btn-primary" data-event-category="CTA" data-event-action="Click" data-event-label="Começar nesta faixa - 500">Começar nesta faixa de envios</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Até 1.000 boletos</h3>
+                    <p class="price">R$ 310,00</p>
+                    <a href="#lead-capture" class="cta-btn cta-btn-primary" data-event-category="CTA" data-event-action="Click" data-event-label="Começar nesta faixa - 1000">Começar nesta faixa de envios</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Até 3.000 boletos</h3>
+                    <p class="price">R$ 620,00</p>
+                    <a href="#lead-capture" class="cta-btn cta-btn-primary" data-event-category="CTA" data-event-action="Click" data-event-label="Começar nesta faixa - 3000">Começar nesta faixa de envios</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Até 5.000 boletos</h3>
+                    <p class="price">R$ 1200,00</p>
+                    <a href="#lead-capture" class="cta-btn cta-btn-primary" data-event-category="CTA" data-event-action="Click" data-event-label="Começar nesta faixa - 5000">Começar nesta faixa de envios</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Até 10.000 boletos</h3>
+                    <p class="price">R$ 1800,00</p>
+                    <a href="#lead-capture" class="cta-btn cta-btn-primary" data-event-category="CTA" data-event-action="Click" data-event-label="Começar nesta faixa - 10000">Começar nesta faixa de envios</a>
+                </div>
+            </div>
+            <p class="excedente">Excedente: R$ 0,02 por e-mail.</p>
+            <p class="legal-note">Valores estimados, sem impostos. Sujeitos a alterações.</p>
+        </div>
+    </section>
+
+    <!-- PERGUNTAS FREQUENTES -->
+    <section id="faq">
+        <div class="container">
+            <h2>Perguntas Frequentes</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h3>Preciso de integração?</h3>
+                    <p>Não. O envio é feito direto pela plataforma SCOD, de forma simples e rápida.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Posso anexar PDF?</h3>
+                    <p>Sim. O boleto é enviado ao destinatário em formato PDF para garantir a entrega rápida.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Existe envio em lote?</h3>
+                    <p>Não. O envio é individual por boleto, garantindo o controle e rastreio de cada comunicação.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Há registro do envio?</h3>
+                    <p>Sim. O painel da plataforma mostra quem enviou, quando e o status de cada e-mail.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Cumpre LGPD?</h3>
+                    <p>Sim. O tratamento e armazenamento de dados são realizados conforme a Lei Geral de Proteção de Dados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAPTURA DE LEAD -->
+    <section id="lead-capture">
+        <div class="container">
+            <h2>Pronto para ativar?</h2>
+            <!-- FORMULÁRIO ATUALIZADO PARA FUNCIONAR COM SERVIÇO DE TERCEIROS (EX: FORMSPREE) -->
+            <!-- 
+                Para que o formulário envie os dados por e-mail,
+                você precisa se cadastrar em um serviço como o Formspree.io.
+                Eles fornecerão uma URL única para você inserir no 'action' abaixo.
+                Por exemplo: action="https://formspree.io/f/your-form-id"
+                
+                O campo hidden '_subject' define o assunto do e-mail.
+                A URL abaixo é um placeholder para demonstração.
+            -->
+            <form action="https://formspree.io/f/xeozdjnn" method="POST">
+                <input type="hidden" name="_subject" value="Novo Contato da Landing Page - Módulo Envio de Boletos">
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="company">Empresa</label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+                <div class="form-group">
+                    <label for="cnpj">CNPJ</label>
+                    <input type="text" id="cnpj" name="cnpj" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefone</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Mensagem</label>
+                    <textarea id="message" name="message" rows="4"></textarea>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="lgpd-consent" name="lgpd-consent" required>
+                    <label for="lgpd-consent">Autorizo a SCOD a tratar meus dados para contato.</label>
+                </div>
+                <button type="submit" class="cta-btn cta-btn-primary" data-event-category="CTA" data-event-action="Click" data-event-label="Falar com a SCOD">Falar com a SCOD</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Termos de Uso</a>
+                <a href="#">Política de Privacidade</a>
+                <a href="#">Contato</a>
+            </div>
+            <p>&copy; <span id="current-year"></span> SCOD Brasil. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Implementação básica de lazy loading (para imagens reais)
+        document.addEventListener("DOMContentLoaded", function() {
+            var lazyImages = [].slice.call(document.querySelectorAll("img[data-src]"));
+            
+            if ("IntersectionObserver" in window) {
+                let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            let lazyImage = entry.target;
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImage.removeAttribute("data-src");
+                            lazyImageObserver.unobserve(lazyImage);
+                        }
+                    });
+                });
+                
+                lazyImages.forEach(function(lazyImage) {
+                    lazyImageObserver.observe(lazyImage);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
