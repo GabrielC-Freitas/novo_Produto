@@ -26,11 +26,12 @@
 
     <style>
         :root {
-            --scod-rosa: #FF4081; /* Exemplo de rosa SCOD, pode ser ajustado */
+            --scod-rosa: #FF4081; /* Cor rosa principal da SCOD */
             --scod-preto: #1A1A1A;
             --scod-grafite: #2C2C2C;
             --scod-branco: #FFFFFF;
             --scod-cinza-claro: #E0E0E0;
+            --scod-amarelo: #FFD700; /* Novo amarelo para o selo */
             --max-width: 1120px;
             --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
@@ -174,7 +175,7 @@
         }
         
         #hero .new-badge {
-            background-color: var(--scod-rosa);
+            background-color: var(--scod-amarelo); /* Fundo amarelo para o selo */
             color: var(--scod-preto);
             padding: 0.25rem 0.75rem;
             border-radius: 9999px;
@@ -188,10 +189,8 @@
             position: relative;
             width: 100%;
             height: 300px;
-            /* Placeholder para a imagem de fundo de escritório */
-            background-image: url('https://placehold.co/1200x600/2C2C2C/E0E0E0.webp?text=Imagem+de+escritório');
-            background-size: cover;
-            background-position: center;
+            /* Apenas um fundo escuro, sem a imagem de placeholder */
+            background-color: var(--scod-grafite);
             border-radius: 12px;
             overflow: hidden;
             display: flex;
