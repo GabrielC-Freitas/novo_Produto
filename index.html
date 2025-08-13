@@ -13,13 +13,13 @@
     <meta property="og:url" content="URL_DA_SUA_PAGINA">
     <meta property="og:title" content="SCOD — Envio de Boletos por E-mail | IPTU em PDF com rastreio e LGPD">
     <meta property="og:description" content="Envie boletos de IPTU por e-mail em PDF direto da plataforma SCOD. Rápido, seguro, com registro de envio e conformidade LGPD.">
-    <meta property="og:image" content="LOGO.png">
+    <meta property="og:image" content="URL_DA_IMAGEM_OPENGRAPH">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="URL_DA_SUA_PAGINA">
     <meta property="twitter:title" content="SCOD — Envio de Boletos por E-mail | IPTU em PDF com rastreio e LGPD">
-    <meta property="twitter:description" content="Envie boletos de suas contas por e-mail em PDF direto da plataforma SCOD. Rápido, seguro, com registro de envio e conformidade LGPD.">
+    <meta property="twitter:description" content="Envie boletos de IPTU por e-mail em PDF direto da plataforma SCOD. Rápido, seguro, com registro de envio e conformidade LGPD.">
     <meta property="twitter:image" content="URL_DA_IMAGEM_TWITTER">
 
     <title>SCOD — Envio de Boletos por E-mail | IPTU em PDF com rastreio e LGPD</title>
@@ -110,15 +110,16 @@
             color: var(--scod-rosa);
         }
         
+        /* O botão secundário agora tem o mesmo estilo do primário, conforme solicitado */
         .cta-btn-secondary {
-            background-color: transparent;
-            color: var(--scod-rosa);
+            background-color: var(--scod-rosa);
+            color: var(--scod-preto);
             border-color: var(--scod-rosa);
         }
 
         .cta-btn-secondary:hover, .cta-btn-secondary:focus {
-            background-color: var(--scod-rosa);
-            color: var(--scod-preto);
+            background-color: transparent;
+            color: var(--scod-rosa);
         }
 
         /* Layout */
@@ -187,6 +188,7 @@
             position: relative;
             width: 100%;
             height: 300px;
+            /* Placeholder para a imagem de fundo de escritório */
             background-image: url('https://placehold.co/1200x600/2C2C2C/E0E0E0.webp?text=Imagem+de+escritório');
             background-size: cover;
             background-position: center;
@@ -524,9 +526,8 @@
                 </div>
             </div>
             <div class="hero-visual">
-                <img src="https://placehold.co/1200x600/2C2C2C/E0E0E0.webp?text=Imagem+de+escritório" alt="Pessoas em um escritório trabalhando">
-                <!-- Logo da SCOD sobre a imagem -->
-                <img src="https://googleusercontent.com/file_content/6" alt="Logo SCOD" class="scod-logo">
+                <!-- A imagem de fundo é definida no CSS. O caminho para sua logo está aqui: -->
+                <img src="./logo.png" alt="Logo SCOD" class="scod-logo">
             </div>
         </div>
     </section>
